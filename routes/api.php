@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +16,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('auth')->group(function () {
+    Route::post('join', [AuthController::class, 'join'])
+        ->withoutMiddleware(['auth:sanctum']);
+    Route::post('login', [AuthController::class, 'login'])
+        ->withoutMiddleware(['auth:sanctum']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::put('tokenRefresh', [AuthController::class, 'refresh']);
+});
+
+Route::prefix('diary')->group(function () {
+    Route::prefix('/')->group(function () {
+
+    });
+});
+
+Route::prefix('mall')->group(function () {
+
+});
+
+Route::prefix('profile')->group(function () {
+
 });
