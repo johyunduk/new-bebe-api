@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return response()->json(['result' => 'API OK']);
 });
+
+Route::get('image/{path}/{filename}', function (string $path, string $filename) {
+    $path = "{$path}/{$filename}";
+
+    return \Illuminate\Support\Facades\Storage::disk('local')->download($path);
+});

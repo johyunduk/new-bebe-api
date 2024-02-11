@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiaryController;
+use App\Http\Controllers\MallController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,13 @@ Route::prefix('diary')->group(function () {
 });
 
 Route::prefix('mall')->group(function () {
-    Route::prefix('item')->group(function () {
-
-    });
+    Route::get('size', [MallController::class, 'sizeList']);
+    Route::get('category', [MallController::class, 'categoryList']);
+    Route::post('category', [MallController::class, 'createCategory']);
+    Route::get('item', [MallController::class, 'itemList']);
+    Route::post('item', [MallController::class, 'createItem']);
+    Route::get('item/{itemId}', [MallController::class, 'itemDetail']);
+    Route::post('item/{itemId}', [MallController::class, 'editItem']);
 });
 
 Route::prefix('profile')->group(function () {
