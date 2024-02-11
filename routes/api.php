@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\MallController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,7 @@ Route::prefix('mall')->group(function () {
 });
 
 Route::prefix('profile')->group(function () {
-
+    Route::get('/', [ProfileController::class, 'getProfile']);
+    Route::put('edit', [ProfileController::class, 'editProfile']);
+    Route::post('avatar', [ProfileController::class, 'editAvatar']);
 });
