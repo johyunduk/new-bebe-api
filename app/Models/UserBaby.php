@@ -17,6 +17,6 @@ class UserBaby extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'name', 'birthDate', 'gender', 'face', 'expectDate', 'pregnantDate',
+        'name', 'birthDate', 'gender', 'face', 'expectDate', 'pregnantDate', 'userId'
     ];
 }

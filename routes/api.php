@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\MallController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BabyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,13 @@ Route::prefix('diary')->group(function () {
     Route::post('/', [DiaryController::class, 'createDiary']);
     Route::put('edit/{diaryId}', [DiaryController::class, 'editDiary']);
     Route::delete('delete/{diaryId}', [DiaryController::class, 'deleteDiary']);
+    Route::prefix('baby')->group(function () {
+        Route::get('/', [BabyController::class, 'babyList']);
+        Route::post('/', [BabyController::class, 'createBaby']);
+        Route::put('{babyId}', [BabyController::class, 'editBaby']);
+        Route::delete('{babyId}', [BabyController::class, 'deleteBaby']);
+        Route::post('{babyId}/face', [BabyController::class, 'editBabyFace']);
+    });
 });
 
 Route::prefix('mall')->group(function () {
