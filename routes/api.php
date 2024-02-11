@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DiaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,13 +27,17 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('diary')->group(function () {
-    Route::prefix('/')->group(function () {
-
-    });
+    Route::get('/', [DiaryController::class, 'diaryList']);
+    Route::get('detail/{diaryId}', [DiaryController::class, 'diaryDetail']);
+    Route::post('/', [DiaryController::class, 'createDiary']);
+    Route::put('edit/{diaryId}', [DiaryController::class, 'editDiary']);
+    Route::delete('delete/{diaryId}', [DiaryController::class, 'deleteDiary']);
 });
 
 Route::prefix('mall')->group(function () {
+    Route::prefix('item')->group(function () {
 
+    });
 });
 
 Route::prefix('profile')->group(function () {

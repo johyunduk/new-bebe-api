@@ -30,4 +30,8 @@ class User extends Authenticatable
         'avatar',
         'isAdmin'
     ];
+
+    protected $hidden = [
+        'password'
+    ];
 }

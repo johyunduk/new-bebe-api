@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Diary extends Model
 {
@@ -19,4 +20,9 @@ class Diary extends Model
     protected $fillable = [
         'title', 'content', 'weight', 'height', 'userId'
     ];
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'userId', 'id');
+    }
 }
