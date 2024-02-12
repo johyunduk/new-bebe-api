@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
                 'result' => '9999',
                 'status' => 500,
                 'message' => 'Internal Server Error Occurred...'
-            ]);
+            ], 500);
         });
     }
 }

@@ -48,7 +48,7 @@ Route::prefix('mall')->group(function () {
     Route::get('size', [MallController::class, 'sizeList']);
     Route::get('category', [MallController::class, 'categoryList']);
     Route::post('category', [MallController::class, 'createCategory']);
-    Route::get('item', [MallController::class, 'itemList']);
+    Route::get('item', [MallController::class, 'itemList'])->withoutMiddleware(['auth:sanctum']);
     Route::post('item', [MallController::class, 'createItem']);
     Route::get('item/{itemId}', [MallController::class, 'itemDetail']);
     Route::post('item/{itemId}', [MallController::class, 'editItem']);
