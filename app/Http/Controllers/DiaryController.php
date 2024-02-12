@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Diary;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
@@ -16,6 +18,12 @@ class DiaryController extends Controller
         $diaries = Diary::with(['author' => fn ($q) => $q->select(['id', 'name'])])
             ->get();
 
+        foreach ($diaries as $diary) {
+            if($diary->image) {
+                $diary->image = config('app.url') . '/image/diaries/' . $diary->image;
+            }
+        }
+
         return response()->json($diaries);
     }
 
@@ -24,6 +32,10 @@ class DiaryController extends Controller
         $diary = Diary::where('id', $diaryId)
             ->with('author')
             ->first();
+
+        if($diary->image) {
+            $diary->image = config('app.url') . '/image/diaries/' . $diary->image;
+        }
 
         return response()->json($diary);
     }
@@ -34,18 +46,29 @@ class DiaryController extends Controller
             'title' => 'required|string',
             'content' => 'required|string',
             'weight' => 'numeric',
-            'height' => 'numeric'
+            'height' => 'numeric',
+            'file' => 'file'
         ]);
 
         if($validator->fails()) {
             throw new UnprocessableEntityHttpException($validator->messages());
         }
 
+        $validated = $validator->getData();
+
+        $fileName = null;
+
+        if(isset($validated['file'])) {
+            $fileName = Uuid::uuid4() . '.' . $validated['file']->extension();
+            Storage::disk('local')->putFileAs('diaries', $validated['file'], $fileName);
+        }
+
         $user = $request->user();
 
         Diary::create([
-            ...$validator->getData(),
-            'userId' => $user->id
+            ...$validated,
+            'userId' => $user->id,
+            'file' => $fileName
         ]);
 
         return response()->json(['result' => 'OK']);

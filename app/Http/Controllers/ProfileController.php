@@ -25,7 +25,7 @@ class ProfileController extends Controller
             throw new NotFoundHttpException('존재하지 않는 사용자 입니다.');
         }
 
-        $user->avatar = $user->avatar ? config('app.url') . '/image/avatar/' . $user->avatar : null;
+        $user->avatar = $user->avatar ? config('app.url') . '/image/avatars/' . $user->avatar : null;
 
         return response()->json($user);
     }
