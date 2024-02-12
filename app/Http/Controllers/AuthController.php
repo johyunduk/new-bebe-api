@@ -86,10 +86,12 @@ class AuthController extends Controller
         $access = Auth::user()->createToken('accessToken');
         $refresh = Auth::user()->createToken('refreshToken');
 
+        $user = Auth::user();
 
         return response()->json([
             'accessToken' => $access->plainTextToken,
             'refreshToken' => $refresh->plainTextToken,
+            'user' => $user->only(['id', 'name', 'isAdmin'])
         ]);
     }
 
